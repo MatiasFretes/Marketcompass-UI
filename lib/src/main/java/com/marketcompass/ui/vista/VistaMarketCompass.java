@@ -1,7 +1,9 @@
 package com.marketcompass.ui.vista;
 
+import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.JList;
 import javax.swing.DefaultListModel;
@@ -18,7 +20,6 @@ import com.marketcompass.ui.controlador.Controlador;
 import com.marketcompass.ui.vista.componentes.PanelImagenFondo;
 import javax.swing.SwingConstants;
 import java.awt.SystemColor;
-
 public class VistaMarketCompass {
 	private JFrame frame;
 	private JList list;
@@ -26,12 +27,20 @@ public class VistaMarketCompass {
     public static DefaultListModel<String> listProductos;
     private JScrollPane scrollPane;
     private JScrollBar scrollBar;
-  
+    private static JTextField resultadoTextField;
+
+	public VistaMarketCompass() {
+		
+	}
 	
 	public void inicializar() {
 		frame = new JFrame("MarketCompass");
         frame.setVisible(true);
 		PanelImagenFondo panel = new PanelImagenFondo();
+	    Dimension backgroundImageSize = panel.getBackgroundImageSize();
+		int panelWidth = (int) backgroundImageSize.getWidth();
+	    int panelHeight = (int) backgroundImageSize.getHeight();
+	    
 		JTextField textProducto = crearTextProducto(); 
 		JButton btnAgregar = crearBtnAgregar(textProducto);
 		JButton btnEnviar = crearBtnEnviar();
@@ -42,13 +51,20 @@ public class VistaMarketCompass {
 		panel.add(btnAgregar);
 		panel.add(btnEnviar);
 	    panel.add(scrollPane);
-		panel.setBounds(0, 0, 1400, 718);
+		panel.setBounds(0, 0, panelWidth, panelHeight);
 		panel.setLayout(null);
 		frame.getContentPane().add(panel);
         frame.getContentPane().add(panel);
-		frame.setBounds(550, 550, 550, 400);
+		frame.setBounds(550, 550, panelWidth, panelHeight);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);		
+		
+	    resultadoTextField = new JTextField();
+	    resultadoTextField.setFont(new Font("Tw Cen MT", Font.BOLD, 20));
+	    resultadoTextField.setEditable(false);
+	    resultadoTextField.setBackground(SystemColor.getColor("0149ac"));
+	    resultadoTextField.setBounds(300, 540, 800, 28);
+	    frame.getContentPane().add(resultadoTextField);
 	}
 	private JScrollPane crearConfigurarLista() {
 	    listProductos = new DefaultListModel<>();
@@ -99,15 +115,20 @@ public class VistaMarketCompass {
 		btnEnviar.setBackground(SystemColor.textHighlight);
 		btnEnviar.setFont(new Font("Yu Gothic UI Semilight", Font.BOLD, 16));
 		btnEnviar.setHorizontalAlignment(SwingConstants.CENTER);
-		btnEnviar.setBounds(640, 500, 105, 33);
-		
 		btnEnviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				new Controlador();
-				
+				try {
+					new Controlador();
+				} catch (Exception e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
 			}
-			});
+		});
+		btnEnviar.setBounds(640, 500, 105, 33);
 		return btnEnviar;
+	}
+	public static void actualizarResultado(String resultado) {
+	    resultadoTextField.setText(resultado);
 	}
 }
