@@ -1,11 +1,12 @@
 package com.marketcompass.ui.main;
 
-import com.marketcompass.ui.controlador.Controlador;
+import com.marketcompass.ui.vista.VistaMarketCompass;
 
 public class Main {
 
 	public static void main(String[] args) {
-        new Controlador();
+        VistaMarketCompass  vistaMarket = new VistaMarketCompass();
+        vistaMarket.inicializar();
 	}
 
 }
