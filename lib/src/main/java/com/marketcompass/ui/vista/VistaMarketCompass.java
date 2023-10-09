@@ -1,6 +1,5 @@
 package com.marketcompass.ui.vista;
 
-import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.awt.Color;
 import java.awt.Dimension;
@@ -11,22 +10,25 @@ import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
+import java.util.Collections;
+import java.util.List;
+import java.util.Observable;
+import java.util.stream.Collectors;
 import java.awt.event.ActionEvent;
 import javax.swing.JTextField;
 import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
-import com.marketcompass.ui.controlador.Controlador;
 import com.marketcompass.ui.vista.componentes.PanelImagenFondo;
 import javax.swing.SwingConstants;
 import java.awt.SystemColor;
-public class VistaMarketCompass {
+
+@SuppressWarnings("deprecation")
+public class VistaMarketCompass extends Observable{
 	private JFrame frame;
-	private JList list;
-	private JList list_1;
-    public static DefaultListModel<String> listProductos;
+	private JList<String> list;
+	public static DefaultListModel<String> listProductos;
     private JScrollPane scrollPane;
-    private JScrollBar scrollBar;
     private static JTextField resultadoTextField;
 
 	public VistaMarketCompass() {
@@ -41,10 +43,10 @@ public class VistaMarketCompass {
 		int panelWidth = (int) backgroundImageSize.getWidth();
 	    int panelHeight = (int) backgroundImageSize.getHeight();
 	    
-		JTextField textProducto = crearTextProducto(); 
+		JTextField textProducto = crearCampoProducto(); 
 		JButton btnAgregar = crearBtnAgregar(textProducto);
 		JButton btnEnviar = crearBtnEnviar();
-		JScrollPane scrollPane = crearConfigurarLista();
+		JScrollPane scrollPane = crearLista();
 			
 		frame.add(panel);
 		panel.add(textProducto);
@@ -60,13 +62,14 @@ public class VistaMarketCompass {
 		frame.getContentPane().setLayout(null);		
 		
 	    resultadoTextField = new JTextField();
-	    resultadoTextField.setFont(new Font("Tw Cen MT", Font.BOLD, 20));
+	    resultadoTextField.setFont(new Font("Tw Cen MT", Font.BOLD, 16));
 	    resultadoTextField.setEditable(false);
 	    resultadoTextField.setBackground(SystemColor.getColor("0149ac"));
 	    resultadoTextField.setBounds(300, 540, 800, 28);
 	    frame.getContentPane().add(resultadoTextField);
 	}
-	private JScrollPane crearConfigurarLista() {
+	
+	private JScrollPane crearLista() {
 	    listProductos = new DefaultListModel<>();
 	    list = new JList<>(listProductos);
 	    list.setFont(new Font("Tw Cen MT", Font.BOLD, 20));
@@ -84,7 +87,7 @@ public class VistaMarketCompass {
 	    });
 	    return scrollPane;
 	}
-	public JTextField crearTextProducto() {
+	public JTextField crearCampoProducto() {
 		JTextField textProducto = new JTextField();
 		textProducto.setFont(new Font("Tw Cen MT", Font.BOLD, 20));
 		textProducto.setBackground(SystemColor.getColor("0149ac"));
@@ -103,6 +106,7 @@ public class VistaMarketCompass {
             if (!text.isEmpty()) {
                 listProductos.addElement(text);
                 textProducto.setText("");
+                resultadoTextField.setText("");
             }
 			}
 		});
@@ -117,18 +121,19 @@ public class VistaMarketCompass {
 		btnEnviar.setHorizontalAlignment(SwingConstants.CENTER);
 		btnEnviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					new Controlador();
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				setChanged();
+			    notifyObservers(obtenerProductos());
+			    listProductos.clear();
 			}
 		});
 		btnEnviar.setBounds(640, 500, 105, 33);
 		return btnEnviar;
 	}
-	public static void actualizarResultado(String resultado) {
-	    resultadoTextField.setText(resultado);
+	public void actualizarResultado(String resultado) {
+		resultadoTextField.setText(resultado);
+	}
+	
+	public List<String> obtenerProductos(){
+		return Collections.list(listProductos.elements()).stream().collect(Collectors.toList());
 	}
 }
