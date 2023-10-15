@@ -37,6 +37,7 @@ public class VistaMarketCompass extends Observable{
 	public static FiltradorPorCriterio criterioSeleccionado;
     private JScrollPane scrollPane;
     private static JTextField resultadoTextField;
+    private  JTextField msjErrorCriterio;
     private static JComboBox comboBox;
 
 	public VistaMarketCompass() {
@@ -76,7 +77,7 @@ public class VistaMarketCompass extends Observable{
 	    resultadoTextField.setFont(new Font("Tw Cen MT", Font.BOLD, 16));
 	    resultadoTextField.setEditable(false);
 	    resultadoTextField.setBackground(SystemColor.getColor("0149ac"));
-	    resultadoTextField.setBounds(300, 540, 800, 28);
+	    resultadoTextField.setBounds(200, 500, 800, 28);
 	    frame.getContentPane().add(resultadoTextField);
 	}
 	
@@ -132,17 +133,20 @@ public class VistaMarketCompass extends Observable{
 		btnEnviar.setHorizontalAlignment(SwingConstants.CENTER);
 		btnEnviar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				setChanged();
-			    notifyObservers(obtenerProductos());
-			    listProductos.clear();
+				if(criterioSeleccionado != null) {
+					setChanged();
+				    notifyObservers(obtenerProductos());
+				    listProductos.clear();
+				}else {
+					mostrarMsjCriterioNoSeleccionado();
+				}
+				
 			}
 		});
 		btnEnviar.setBounds(640, 550, 105, 33);
 		return btnEnviar;
 	}
-	
-	// Acá se setearian las opciones disponibles del combo box con los filtradores disponibles la linea 144 tomaria los filtradores
-	
+		
 	public JComboBox crearComboBox() {
 		comboBox = new JComboBox();
 		comboBox.setBounds(455, 343, 305, 33);
@@ -152,35 +156,33 @@ public class VistaMarketCompass extends Observable{
 		
 	}
 	
-//	public void cargarComboBoxCriterio(String[] criterios) {
-//		comboBox.setModel(new DefaultComboBoxModel(criterios));
-//	}
-//	
-//	public String obtenerCriterioSeleccionado() {
-//		String itemSeleccionado = comboBox.getSelectedItem().toString();
-//
-//		// Verifica si el elemento seleccionado no es nulo antes de trabajar con él
-//		if (itemSeleccionado != null) {
-//		    String criterioSeleccionado = itemSeleccionado.toString();
-//		    // Aquí tienes el String seleccionado en el JComboBox
-//		   return criterioSeleccionado;
-//		} else {
-//		    return "No se ha seleccionado ningún elemento.";
-//		}
-//	}
-	
 	public void cargarComboBoxCriterio(String[] nombresCriterios, FiltradorPorCriterio[] criterios) {
-	    comboBox.setModel(new DefaultComboBoxModel(nombresCriterios));
+	    String[] nombresConSeleccionar = new String[nombresCriterios.length + 1];
+	    nombresConSeleccionar[0] = "Seleccionar criterio";
+	    System.arraycopy(nombresCriterios, 0, nombresConSeleccionar, 1, nombresCriterios.length);
 
+	    comboBox.setModel(new DefaultComboBoxModel(nombresConSeleccionar));
+	    comboBox.setSelectedIndex(0);
 	    comboBox.addActionListener(new ActionListener() {
 	        @Override
 	        public void actionPerformed(ActionEvent e) {
 	            int selectedIndex = comboBox.getSelectedIndex();
-	            if (selectedIndex != -1) {
-	                criterioSeleccionado = criterios[selectedIndex];	                
+	            if (selectedIndex != 0) {
+	                criterioSeleccionado = criterios[selectedIndex - 1]; 
+	            } else {
+	                criterioSeleccionado = null; 
 	            }
 	        }
 	    });
+	}
+	
+	public void mostrarMsjCriterioNoSeleccionado() {
+		msjErrorCriterio = new JTextField("Se debe seleccionar un criterio de búsqueda");
+	 	msjErrorCriterio.setFont(new Font("Tw Cen MT", Font.BOLD, 16));
+	 	msjErrorCriterio.setEditable(false);
+	 	msjErrorCriterio.setBackground(SystemColor.red);
+	 	msjErrorCriterio.setBounds(200, 500, 800, 28);
+	    frame.getContentPane().add(msjErrorCriterio);
 	}
 	
 	public void actualizarResultado(String resultado) {
