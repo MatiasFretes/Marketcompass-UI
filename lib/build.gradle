@@ -29,5 +29,5 @@ dependencies {
     // This dependency is used internally, and not exposed to consumers on their own compile classpath.
     implementation 'com.google.guava:guava:29.0-jre'
     
-	implementation 'com.github.MatiasFretes:Marketcompass-Core:master-SNAPSHOT'
+	implementation 'com.github.MatiasFretes:Marketcompass-Core:e137bf2460'
 }

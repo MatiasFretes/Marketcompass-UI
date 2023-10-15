@@ -5,8 +5,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import javax.swing.JList;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
@@ -20,6 +23,9 @@ import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
 
 import com.marketcompass.ui.vista.componentes.PanelImagenFondo;
+
+import extensible.FiltradorPorCriterio;
+
 import javax.swing.SwingConstants;
 import java.awt.SystemColor;
 
@@ -28,8 +34,10 @@ public class VistaMarketCompass extends Observable{
 	private JFrame frame;
 	private JList<String> list;
 	public static DefaultListModel<String> listProductos;
+	public static FiltradorPorCriterio criterioSeleccionado;
     private JScrollPane scrollPane;
     private static JTextField resultadoTextField;
+    private static JComboBox comboBox;
 
 	public VistaMarketCompass() {
 		
@@ -47,12 +55,15 @@ public class VistaMarketCompass extends Observable{
 		JButton btnAgregar = crearBtnAgregar(textProducto);
 		JButton btnEnviar = crearBtnEnviar();
 		JScrollPane scrollPane = crearLista();
+		JComboBox comboBoxCriterio = crearComboBox();
+		
 			
 		frame.add(panel);
 		panel.add(textProducto);
 		panel.add(btnAgregar);
 		panel.add(btnEnviar);
 	    panel.add(scrollPane);
+	    panel.add(comboBoxCriterio);
 		panel.setBounds(0, 0, panelWidth, panelHeight);
 		panel.setLayout(null);
 		frame.getContentPane().add(panel);
@@ -76,9 +87,9 @@ public class VistaMarketCompass extends Observable{
 	    list.setBackground(SystemColor.activeCaption);
 	    list.setVisibleRowCount(16);
 	    scrollPane = new JScrollPane(list);
-	    scrollPane.setBounds(500, 350, 500, 120);
+	    scrollPane.setBounds(450, 174, 500, 120);
 	    JScrollBar scrollBar = new JScrollBar(JScrollBar.VERTICAL);
-	    scrollBar.setBounds(300, 155, 17, 170);
+	    scrollBar.setBounds(450, 174, 17, 170);
 	    scrollBar.addAdjustmentListener(new AdjustmentListener() {
 	        public void adjustmentValueChanged(AdjustmentEvent e) {
 	            int value = e.getValue();
@@ -90,8 +101,8 @@ public class VistaMarketCompass extends Observable{
 	public JTextField crearCampoProducto() {
 		JTextField textProducto = new JTextField();
 		textProducto.setFont(new Font("Tw Cen MT", Font.BOLD, 20));
-		textProducto.setBackground(SystemColor.getColor("0149ac"));
-		textProducto.setBounds(400, 200, 400, 28);
+		textProducto.setBackground(SystemColor.activeCaption);
+		textProducto.setBounds(360, 100, 400, 28);
 		textProducto.setColumns(10);
 		return textProducto;
 	}
@@ -110,7 +121,7 @@ public class VistaMarketCompass extends Observable{
             }
 			}
 		});
-		btnAgregar.setBounds(820, 200, 45, 28);
+		btnAgregar.setBounds(775, 100, 45, 28);
 		return btnAgregar;
 	}
 	public JButton crearBtnEnviar() {
@@ -126,9 +137,52 @@ public class VistaMarketCompass extends Observable{
 			    listProductos.clear();
 			}
 		});
-		btnEnviar.setBounds(640, 500, 105, 33);
+		btnEnviar.setBounds(640, 550, 105, 33);
 		return btnEnviar;
 	}
+	
+	// Acá se setearian las opciones disponibles del combo box con los filtradores disponibles la linea 144 tomaria los filtradores
+	
+	public JComboBox crearComboBox() {
+		comboBox = new JComboBox();
+		comboBox.setBounds(455, 343, 305, 33);
+		comboBox.setBackground(SystemColor.activeCaption);
+		comboBox.setEditable(true);
+		return comboBox;
+		
+	}
+	
+//	public void cargarComboBoxCriterio(String[] criterios) {
+//		comboBox.setModel(new DefaultComboBoxModel(criterios));
+//	}
+//	
+//	public String obtenerCriterioSeleccionado() {
+//		String itemSeleccionado = comboBox.getSelectedItem().toString();
+//
+//		// Verifica si el elemento seleccionado no es nulo antes de trabajar con él
+//		if (itemSeleccionado != null) {
+//		    String criterioSeleccionado = itemSeleccionado.toString();
+//		    // Aquí tienes el String seleccionado en el JComboBox
+//		   return criterioSeleccionado;
+//		} else {
+//		    return "No se ha seleccionado ningún elemento.";
+//		}
+//	}
+	
+	public void cargarComboBoxCriterio(String[] nombresCriterios, FiltradorPorCriterio[] criterios) {
+	    comboBox.setModel(new DefaultComboBoxModel(nombresCriterios));
+
+	    comboBox.addActionListener(new ActionListener() {
+	        @Override
+	        public void actionPerformed(ActionEvent e) {
+	            int selectedIndex = comboBox.getSelectedIndex();
+	            if (selectedIndex != -1) {
+	                criterioSeleccionado = criterios[selectedIndex];	                
+	            }
+	        }
+	    });
+	}
+	
 	public void actualizarResultado(String resultado) {
 		resultadoTextField.setText(resultado);
 	}

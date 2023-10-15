@@ -15,7 +15,8 @@ public class Controlador{
     }
 
 	public void solicitarRecomendacion(List<String> productos) {
-		Recomendacion recomendacion = core.obtenerRecomendacion(productos);
+		//core.seleccionarCriterio(vista.criterioSeleccionado);
+		Recomendacion recomendacion = core.obtenerRecomendacion(vista.criterioSeleccionado, productos);
 		vista.actualizarResultado(recomendacion.toString());
 	}
 }
