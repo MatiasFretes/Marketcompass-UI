@@ -11,7 +11,7 @@ public class PanelImagenFondo extends JPanel {
     public PanelImagenFondo() {
         try {
             // Carga la imagen desde la ruta especificadab
-            backgroundImage = ImageIO.read(getClass().getResource("/com/marketcompass/ui/vista/imagenes/fondo.png"));
+            backgroundImage = ImageIO.read(getClass().getResource("/com/marketcompass/ui/vista/imagenes/fondo1.png"));
         } catch (IOException e) {
             e.printStackTrace();
         }
