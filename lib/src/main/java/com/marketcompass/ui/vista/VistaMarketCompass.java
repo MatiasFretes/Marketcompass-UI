@@ -4,6 +4,8 @@ import javax.swing.JFrame;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Frame;
+
 import javax.swing.JList;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
