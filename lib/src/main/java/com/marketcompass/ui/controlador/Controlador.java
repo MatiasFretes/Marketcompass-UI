@@ -32,6 +32,7 @@ public class Controlador{
 		} else {
 			pedirRecomendacionAlCore(productos);
 		}
+		solicitarSugerencias(productos);
 	}
 
 	public void pedirRecomendacionAlCore(List<String> productos) {
@@ -47,5 +48,14 @@ public class Controlador{
 	        nombresCriterios[i] = listaCriterios[i].getClass().getSimpleName();
 	    }
 	    vista.cargarComboBoxCriterio(nombresCriterios, listaCriterios);
-	}	
+	}
+	
+	public void solicitarSugerencias(List<String> productos) {
+		List<String> sugerencias = core.obtenerSugerencias(productos);
+		
+		if(sugerencias.size() > 4)
+			sugerencias = sugerencias.subList(0, 3);
+		
+		vista.obtenerSugerencias(sugerencias);
+	}
 }

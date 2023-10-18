@@ -4,7 +4,6 @@ import javax.swing.JFrame;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Frame;
 
 import javax.swing.JList;
 import javax.swing.DefaultComboBoxModel;
@@ -41,6 +40,10 @@ public class VistaMarketCompass extends Observable{
     private static JTextField resultadoTextField;
     private  JTextField msjErrorCriterio;
     private static JComboBox comboBox;
+    JButton btn1;
+    JButton btn2;
+    JButton btn3;
+    JButton btn4;
 
 	public VistaMarketCompass() {
 		
@@ -60,13 +63,29 @@ public class VistaMarketCompass extends Observable{
 		JScrollPane scrollPane = crearLista();
 		JComboBox comboBoxCriterio = crearComboBox();
 		
-			
+		//450, 174, 17, 170
+		btn1 = crearBtnA(new JTextField("test"), 1000, 180, 100, 38);
+		btn2 = crearBtnA(new JTextField("test"), 1000, 220, 100, 38);
+		btn3 = crearBtnA(new JTextField("test"), 1000, 260, 100, 38);
+		btn4 = crearBtnA(new JTextField("test"), 1000, 300, 100, 38);
+		
+		btn1.setVisible(false);
+		btn2.setVisible(false);
+		btn3.setVisible(false);
+		btn4.setVisible(false);
+
+		
 		frame.add(panel);
 		panel.add(textProducto);
 		panel.add(btnAgregar);
 		panel.add(btnEnviar);
 	    panel.add(scrollPane);
 	    panel.add(comboBoxCriterio);
+	    panel.add(btn1);
+	    panel.add(btn2);
+	    panel.add(btn3);
+	    panel.add(btn4);
+
 		panel.setBounds(0, 0, panelWidth, panelHeight);
 		panel.setLayout(null);
 		frame.getContentPane().add(panel);
@@ -138,7 +157,6 @@ public class VistaMarketCompass extends Observable{
 				if(criterioSeleccionado != null) {
 					setChanged();
 				    notifyObservers(obtenerProductos());
-				    listProductos.clear();
 				}else {
 					mostrarMsjCriterioNoSeleccionado();
 				}
@@ -187,11 +205,45 @@ public class VistaMarketCompass extends Observable{
 	    frame.getContentPane().add(msjErrorCriterio);
 	}
 	
+	public JButton crearBtnA(JTextField textProducto, Integer x, Integer y, Integer ancho, Integer alto) {
+		JButton btnAgregar = new JButton(textProducto.getText());
+		btnAgregar.setForeground(Color.WHITE);
+		btnAgregar.setBackground(SystemColor.textHighlight);
+		btnAgregar.setFont(new Font("Yu Gothic UI Semilight", Font.BOLD, 16));
+		btnAgregar.setBounds(x, y, ancho, alto);
+		return btnAgregar;
+	}
+	
 	public void actualizarResultado(String resultado) {
 		resultadoTextField.setText(resultado);
+		
 	}
 	
 	public List<String> obtenerProductos(){
 		return Collections.list(listProductos.elements()).stream().collect(Collectors.toList());
+	}
+	
+	public void obtenerSugerencias(List<String> sugerencias){
+		if(sugerencias != null && !sugerencias.isEmpty()) {
+			
+			List<JButton> botones = obtenerBotonesDeSugerencia();
+			
+			for (int i = 0; i < sugerencias.size(); i++) {
+		        JButton boton = botones.get(i);
+		        String producto = sugerencias.get(i);
+		        boton.setText(producto);
+		        boton.setVisible(true);
+		        boton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						listProductos.addElement(boton.getText());
+						boton.setEnabled(false);
+					}
+				});
+		    }
+		}
+	}
+	
+	private List<JButton> obtenerBotonesDeSugerencia(){
+		return List.of(btn1, btn2, btn3, btn4);
 	}
 }

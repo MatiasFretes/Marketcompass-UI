@@ -30,8 +30,11 @@ dependencies {
     implementation 'com.google.guava:guava:29.0-jre'
 
 	//CORE
-    implementation 'com.github.MatiasFretes:Marketcompass-Core:6e36d20c0c'
+    implementation 'com.github.MatiasFretes:Marketcompass-Core:master-SNAPSHOT'
     
     //HISTORICO
     implementation 'com.github.MatiasFretes:Marketcompass-Historico:a68642914b'
+    
+    //Consumir API
+    implementation 'com.squareup.okhttp3:okhttp:4.9.0'
 }
