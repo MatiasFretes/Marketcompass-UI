@@ -43,7 +43,7 @@ public class Controlador{
 	public void cargarCriterios() {
 	    Set<FiltradorPorCriterio> criterios = this.core.criterios;
 	    FiltradorPorCriterio[] listaCriterios = criterios.toArray(new FiltradorPorCriterio[0]);
-	    String[] nombresCriterios = new String[listaCriterios.length+1];
+	    String[] nombresCriterios = new String[listaCriterios.length];
 	    for (int i = 0; i < listaCriterios.length; i++) {
 	        nombresCriterios[i] = listaCriterios[i].getClass().getSimpleName();
 	    }
