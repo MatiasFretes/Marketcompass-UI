@@ -2,12 +2,11 @@ package sugerencias;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import javax.swing.DefaultListModel;
 
 public class VistaSugerencias extends JPanel {
 
+	public JLabel lbl_sugerencias;
+	
     public VistaSugerencias() {
     	
         initialize();
@@ -22,5 +21,16 @@ public class VistaSugerencias extends JPanel {
         lblNewLabel.setFont(new Font("Bahnschrift", Font.PLAIN, 19));
         lblNewLabel.setHorizontalAlignment(SwingConstants.LEFT);
         add(lblNewLabel);
+        
+        lbl_sugerencias = new JLabel("");
+        lbl_sugerencias.setHorizontalAlignment(SwingConstants.LEFT);
+        lbl_sugerencias.setForeground(Color.WHITE);
+        lbl_sugerencias.setFont(new Font("Bahnschrift", Font.PLAIN, 19));
+        lbl_sugerencias.setBounds(166, 44, 430, 49);
+        add(lbl_sugerencias);
+    }
+    
+    public void actualizarSugerencias(String productosSugeridos) {
+    	lbl_sugerencias.setText(productosSugeridos);
     }
 }

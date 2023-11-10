@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import modelo.Core;
-import modelo.Recomendacion;
 
 public class ControladorRecomendacion {
 	
@@ -38,8 +37,8 @@ public class ControladorRecomendacion {
         vistaRecomendacion.agregarActionListenerBotonEnviar(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            	Recomendacion recomendacion = core.recomendar(vistaRecomendacion.obtenerProductos());
-            	vistaRecomendacion.actualizarRecomendacion(recomendacion.getMercado());
+            	String recomendacion = core.recomendar(vistaRecomendacion.obtenerProductos());
+            	vistaRecomendacion.actualizarRecomendacion(recomendacion);
             }
         });
     }

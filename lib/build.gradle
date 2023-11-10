@@ -30,7 +30,10 @@ dependencies {
     implementation 'com.google.guava:guava:29.0-jre'
 
 	//CORE
-    implementation 'com.github.MatiasFretes:Marketcompass-Core:c4526e02af'
+	implementation 'com.github.MatiasFretes:Marketcompass-Core:7f5870eb6d'
+
+	//SUGERIDOR
+	implementation 'com.github.davidhelguero:sugeridor:bf73c87928'
 
     //HISTORICO
     implementation 'com.github.MatiasFretes:Marketcompass-Historico:a68642914b'
