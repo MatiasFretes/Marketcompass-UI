@@ -1,8 +1,10 @@
 package recomendacion;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
-import java.util.stream.Collectors;
 import modelo.Core;
+import modelo.Recomendacion;
 
 public class ControladorRecomendacion {
 	
@@ -14,10 +16,31 @@ public class ControladorRecomendacion {
 		this.vistaRecomendacion = vistaRecomendacion;
 		
 		iniciarComboCriterios();
+		listenerCBCriterios();
+		listenerBtnEnviar();
 	}
 	
 	public void iniciarComboCriterios(){
-		List<String> criterios = core.criterios.stream().map(c -> c.getClass().getName()).collect(Collectors.toList());
+		List<String> criterios = core.obtenerNombresCriterios();
 		vistaRecomendacion.actualizarComboBoxCriterio(criterios);
 	}
+	
+    private void listenerCBCriterios() {
+        vistaRecomendacion.agregarActionListenerComboBox(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                core.setCriterio(vistaRecomendacion.obtenerSeleccionComboBox());
+            }
+        });
+    }
+    
+    private void listenerBtnEnviar() {
+        vistaRecomendacion.agregarActionListenerBotonEnviar(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	Recomendacion recomendacion = core.recomendar(vistaRecomendacion.obtenerProductos());
+            	vistaRecomendacion.actualizarRecomendacion(recomendacion.getMercado());
+            }
+        });
+    }
 }

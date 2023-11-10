@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collections;
+import java.util.stream.Collectors;
 
 public class VistaRecomendacion extends JPanel {
 
@@ -12,6 +14,8 @@ public class VistaRecomendacion extends JPanel {
     private JList<String> list;
     public static DefaultListModel<String> listProductos;
     public JComboBox cb_criterios;
+    public JButton btnEnviar;
+    public JLabel lbl_recomendacion;
 
     public VistaRecomendacion() {
         initialize();
@@ -68,7 +72,7 @@ public class VistaRecomendacion extends JPanel {
             }
         });
 
-        JButton btnEnviar = new JButton("Enviar");
+        btnEnviar = new JButton("Enviar");
         btnEnviar.setForeground(colorDeFondo);
         btnEnviar.setFont(new Font("Bahnschrift", Font.PLAIN, 15));
         btnEnviar.setBounds(469, 270, 169, 36);
@@ -78,7 +82,7 @@ public class VistaRecomendacion extends JPanel {
         cb_criterios.setBounds(384, 223, 326, 36);
         add(cb_criterios);
         
-        JLabel lbl_recomendacion = new JLabel("Se recomienda realizar la compra en ");
+        lbl_recomendacion = new JLabel();
         lbl_recomendacion.setForeground(Color.WHITE);
         lbl_recomendacion.setFont(new Font("Bahnschrift", Font.PLAIN, 19));
         lbl_recomendacion.setBounds(47, 333, 374, 36);
@@ -94,5 +98,25 @@ public class VistaRecomendacion extends JPanel {
     public void actualizarComboBoxCriterio(java.util.List<String> criterios) {
 	    DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>(criterios.toArray(new String[0]));
     	cb_criterios.setModel(comboBoxModel);
+    }
+    
+    public void agregarActionListenerBotonEnviar(ActionListener listener) {
+    	btnEnviar.addActionListener(listener);
+    }
+    
+    public java.util.List<String> obtenerProductos(){
+		return Collections.list(listProductos.elements()).stream().collect(Collectors.toList());
+	}
+    
+    public void agregarActionListenerComboBox(ActionListener listener) {
+    	cb_criterios.addActionListener(listener);
+    }
+    
+    public String obtenerSeleccionComboBox() {
+        return (String) cb_criterios.getSelectedItem();
+    }
+    
+    public void actualizarRecomendacion(String recomendacion) {
+    	lbl_recomendacion.setText("Se recomienda realizar la compra en: " + recomendacion);
     }
 }
