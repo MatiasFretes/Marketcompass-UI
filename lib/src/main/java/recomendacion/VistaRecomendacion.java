@@ -93,6 +93,21 @@ public class VistaRecomendacion extends JPanel {
         lbl_SeleccionarCriterio.setFont(new Font("Bahnschrift", Font.PLAIN, 16));
         lbl_SeleccionarCriterio.setBounds(384, 203, 374, 20);
         add(lbl_SeleccionarCriterio);
+        
+        JButton btnLimpiar = new JButton("");
+        btnLimpiar.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+            	listProductos.clear();
+            	lbl_recomendacion.setText("");
+            }
+        });
+
+        ImageIcon icono = new ImageIcon(getClass().getResource("/imagenes/tacho.png"));
+        btnLimpiar.setIcon(icono);
+        btnLimpiar.setForeground(new Color(0, 74, 173));
+        btnLimpiar.setFont(new Font("Bahnschrift", Font.PLAIN, 15));
+        btnLimpiar.setBounds(667, 270, 43, 36);
+        add(btnLimpiar);
     }
     
     public void actualizarComboBoxCriterio(java.util.List<String> criterios) {
