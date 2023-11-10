@@ -85,7 +85,7 @@ public class VistaRecomendacion extends JPanel {
         lbl_recomendacion = new JLabel();
         lbl_recomendacion.setForeground(Color.WHITE);
         lbl_recomendacion.setFont(new Font("Bahnschrift", Font.PLAIN, 19));
-        lbl_recomendacion.setBounds(47, 333, 374, 36);
+        lbl_recomendacion.setBounds(47, 333, 663, 36);
         add(lbl_recomendacion);
         
         JLabel lbl_SeleccionarCriterio = new JLabel("Seleccione un criterio");
